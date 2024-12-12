@@ -1,6 +1,6 @@
 ARG TERRAFORM_VERSION
 
-FROM hashicorp/terraform:${TERRAFORM_VERSION}
+FROM registry.gitlab.com/gitlab-org/terraform-images/stable:${TERRAFORM_VERSION}
 
 ARG TERRAGRUNT_VERSION
 
