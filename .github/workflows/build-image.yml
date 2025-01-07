@@ -26,3 +26,19 @@ jobs:
         run: |
           docker build --build-arg TERRAFORM_VERSION=`echo ${{ steps.extract_branch.outputs.branch }}  | awk -F "-" '{ print $1 }'` --build-arg TERRAGRUNT_VERSION=`echo ${{ steps.extract_branch.outputs.branch }}  | awk -F "-" '{ print $2 }'` . --file Dockerfile --tag ${{ env.REGISTRY }}/goldenimage/terragrunt:${{ steps.extract_branch.outputs.branch }}
           docker push ${{ env.REGISTRY }}/goldenimage/terragrunt:${{ steps.extract_branch.outputs.branch }}
+          - name: Wechat Work action
+          uses: wertycn/work-wechat-send-action@main
+          with:
+            wechat_id: ${{ secrets.WECHAT_COMPANY_ID }}
+            agent_secret: ${{ secrets.WECHAT_APP_SECRET }}
+            agent_id: 1000003
+            to_user: 'suzhetao'
+            msgtype: text
+            send_step: post
+            content: |
+              from GitHub Actions
+              repository: ${{ github.repository }}
+              committer: ${{ github.actor }}
+              branch: ${{ steps.extract_branch.outputs.branch }}
+              compare: ${{ github.event.compare }}
+              job status: ${{ job.status }}
